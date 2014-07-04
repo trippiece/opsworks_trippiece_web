@@ -1,0 +1,7 @@
+Berksfile.lock
+*.gem
+*.rbc
+opsworks-cookbooks
+.vagrant
+.berkshelf
+/.idea

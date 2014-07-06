@@ -1,5 +1,4 @@
-# source 'http://cookbooks.opscode.com/api/v1/cookbooks'
-# source 'https://api.berkshelf.com'
+site :opscode
 
 # We want to be explicit, since we don't explicitly include our
 # packages, except when testing

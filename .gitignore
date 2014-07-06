@@ -5,3 +5,4 @@ opsworks-cookbooks
 .vagrant
 .berkshelf
 /.idea
+/stack.json

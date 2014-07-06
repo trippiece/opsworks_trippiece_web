@@ -31,5 +31,6 @@ end
 include_recipe 'gunicorn'
 
 include_recipe 'nginx'
+nginx_web_app node[:hostname]
 
 include_recipe 'chef-td-agent'

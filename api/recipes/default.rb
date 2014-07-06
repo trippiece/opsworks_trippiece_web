@@ -11,7 +11,6 @@ end
 include_recipe 'python::virtualenv'
 
 virtualenv_dir = '/var/virtualenv'
-
 directory virtualenv_dir do
   mode 0755
   action :create
@@ -28,3 +27,8 @@ end
     action :upgrade
   end
 end
+
+
+include_recipe 'gunicorn'
+
+include_recipe 'nginx'

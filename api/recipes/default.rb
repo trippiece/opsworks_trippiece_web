@@ -32,3 +32,5 @@ end
 include_recipe 'gunicorn'
 
 include_recipe 'nginx'
+
+include_recipe 'chef-td-agent'

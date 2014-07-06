@@ -5,3 +5,4 @@ site :opscode
 cookbook 'build-essential'
 cookbook 'python'
 cookbook 'gunicorn'
+cookbook 'chef-td-agent', github: 'treasure-data/chef-td-agent'

@@ -10,7 +10,7 @@ end
 
 include_recipe 'python::virtualenv'
 
-virtualenv_dir = '/etc/httpd/virtualenv'
+virtualenv_dir = '/var/virtualenv'
 
 directory virtualenv_dir do
   mode 0755

@@ -6,4 +6,3 @@
 cookbook 'build-essential'
 cookbook 'python'
 cookbook 'gunicorn'
-cookbook 'nginx', github: 'aws/opsworks-cookbooks', rel: 'nginx'

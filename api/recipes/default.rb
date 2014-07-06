@@ -10,13 +10,12 @@ end
 
 include_recipe 'python::virtualenv'
 
-virtualenv_dir = '/var/virtualenv'
-directory virtualenv_dir do
+directory node[:virtualenv][:location] do
   mode 0755
   action :create
 end
 
-python_virtualenv "#{virtualenv_dir}/api" do
+python_virtualenv "#{node[:virtualenv][:location]}/api" do
   interpreter "python27"
   action :create
 end

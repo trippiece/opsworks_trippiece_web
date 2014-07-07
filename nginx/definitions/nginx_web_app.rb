@@ -5,7 +5,7 @@ define :nginx_web_app, :template => "site.erb", :enable => true do
   application_name = params[:name]
 
   template "#{node[:nginx][:dir]}/sites-available/#{application_name}" do
-    Chef::Log.debug("Generating Nginx site template for #{application_name.inspect}")
+    Chef::Log.debug("Generating Nginx site template for #{application_name}")
     source params[:template]
     owner "root"
     group "root"

@@ -2,6 +2,7 @@ site :opscode
 
 # We want to be explicit, since we don't explicitly include our
 # packages, except when testing
+cookbook 'ssh_known_hosts'
 cookbook 'build-essential'
 cookbook 'python'
 cookbook 'supervisor'

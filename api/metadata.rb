@@ -4,6 +4,7 @@ maintainer_email  'yasu@amrael.net'
 description       'for api'
 version           '0.0.1'
 
+depends 'ssh_known_hosts'
 depends 'python'
 depends 'supervisor'
 depends 'gunicorn'

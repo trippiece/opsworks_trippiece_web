@@ -32,12 +32,15 @@ end
 end
 
 
+# git clone
 directory node[:app][:directory] do
   owner node[:app][:owner]
   group node[:app][:group]
   mode 0755
   action :create
 end
+
+ssh_known_hosts_entry 'github.com'
 
 git "#{node[:app][:directory]}/#{node[:app][:host]}" do
   repository node[:app][:repository]

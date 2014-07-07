@@ -11,6 +11,8 @@ end
 include_recipe 'python::virtualenv'
 
 directory node[:virtualenv][:parent] do
+  owner node[:app][:owner]
+  group node[:app][:group]
   mode 0755
   action :create
 end
@@ -30,12 +32,29 @@ end
 end
 
 
+directory node[:app][:directory] do
+  owner node[:app][:owner]
+  group node[:app][:group]
+  mode 0755
+  action :create
+end
+
+git "#{node[:app][:directory]}/#{node[:app][:host]}" do
+  repository node[:app][:repository]
+  revision "master"
+  action :sync
+  user node[:app][:owner]
+  group node[:app][:group]
+end
+
+
 include_recipe 'gunicorn'
 gunicorn_config "/etc/gunicorn/#{node[:app][:name]}.py" do
   listen '127.0.0.1:8000'
   worker_processes (node['cpu'] && node['cpu']['total']) && [node['cpu']['total'].to_i * 2 + 1, 8].min || 5
   action :create
 end
+
 
 include_recipe 'supervisor'
 supervisor_service "gunicorn-#{node[:app][:name]}" do

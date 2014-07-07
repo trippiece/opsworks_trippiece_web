@@ -49,7 +49,9 @@ end
 
 
 include_recipe 'gunicorn'
-gunicorn_config "/etc/gunicorn/#{node[:app][:name]}.py" do
+
+gunicorn_config_path = "/etc/gunicorn/#{node[:app][:name]}.py"
+gunicorn_config gunicorn_config_path do
   listen '127.0.0.1:8000'
   worker_processes (node['cpu'] && node['cpu']['total']) && [node['cpu']['total'].to_i * 2 + 1, 8].min || 5
   action :create
@@ -58,7 +60,7 @@ end
 
 include_recipe 'supervisor'
 supervisor_service "gunicorn-#{node[:app][:name]}" do
-  command "#{::File.join(node[:virtualenv][:path], 'bin', 'gunicorn')} #{node[:app][:wsgi]}"
+  command "#{::File.join(node[:virtualenv][:path], 'bin', 'gunicorn')} #{node[:app][:wsgi]} -c #{gunicorn_config_path}"
   autostart true
   autorestart true
   user node[:app][:owner]

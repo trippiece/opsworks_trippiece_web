@@ -10,13 +10,14 @@ end
 
 include_recipe 'python::virtualenv'
 
-directory node[:virtualenv][:location] do
+directory node[:virtualenv][:parent] do
   mode 0755
   action :create
 end
 
-virtualenv_path = "#{node[:virtualenv][:location]}/#{node[:app][:host]}"
-python_virtualenv virtualenv_path do
+python_virtualenv node[:virtualenv][:path] do
+  owner node[:app][:owner]
+  group node[:app][:group]
   interpreter "python27"
   action :create
 end
@@ -29,28 +30,20 @@ end
 end
 
 
-#include_recipe 'gunicorn'
-application node[:app][:name] do
-  path       "#{node[:app][:directory]}/#{node[:app][:host]}"
-  owner      'ec2-user'
-  group      'ec2-user'
-  repository node[:app][:repository]
-  revision   'master'
-  migrate    true
+include_recipe 'gunicorn'
+gunicorn_config "/etc/gunicorn/#{node[:app][:name]}.py" do
+  listen '127.0.0.1:8000'
+  worker_processes (node['cpu'] && node['cpu']['total']) && [node['cpu']['total'].to_i * 2 + 1, 8].min || 5
+  action :create
+end
 
-  gunicorn do
-    app_module node[:app][:wsgi]
-    host node[:app][:host]
-    port 8000
-    workers (node['cpu'] && node['cpu']['total']) && [node['cpu']['total'].to_i * 2 + 1, 8].min || 5
-    virtualenv virtualenv_path
-    autostart true
-    directory "#{node[:app][:directory]}/#{node[:app][:host]}/#{node[:app][:name]}"
-  end
-
-  celery do
-    config "#{node[:app][:directory]}/#{node[:app][:host]}/#{node[:app][:name]}/#{node[:app][:name]}/#{node[:app][:settings]}"
-  end
+include_recipe 'supervisor'
+supervisor_service "gunicorn-#{node[:app][:name]}" do
+  command "#{::File.join(node[:virtualenv][:path], 'bin', 'gunicorn')} #{node[:app][:wsgi]}"
+  autostart true
+  autorestart true
+  user node[:app][:owner]
+  directory "#{node[:app][:directory]}/#{node[:app][:host]}/#{node[:app][:name]}"
 end
 
 

@@ -51,6 +51,7 @@ git "#{node[:app][:directory]}/#{node[:app][:host]}" do
   action :sync
   user node[:app][:owner]
   group node[:app][:group]
+  ssh_wrapper "ssh -i /home/ec2-user/.ssh/id_rsa"
 end
 
 

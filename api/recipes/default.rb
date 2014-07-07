@@ -2,6 +2,8 @@ package 'git' do
   action :install
 end
 
+
+# python
 %w{python27 python27-devel python-pip}.each do |pkg|
   package pkg do
     action :upgrade
@@ -25,6 +27,7 @@ python_virtualenv node[:virtualenv][:path] do
 end
 
 
+# MySQL
 %w{mysql mysql-devel}.each do |pkg|
   package pkg do
     action :upgrade
@@ -51,6 +54,7 @@ git "#{node[:app][:directory]}/#{node[:app][:host]}" do
 end
 
 
+# gunicorn
 include_recipe 'gunicorn'
 
 gunicorn_config_path = "/etc/gunicorn/#{node[:app][:name]}.py"
@@ -61,6 +65,7 @@ gunicorn_config gunicorn_config_path do
 end
 
 
+# supervisor
 include_recipe 'supervisor'
 supervisor_service "gunicorn-#{node[:app][:name]}" do
   command "#{::File.join(node[:virtualenv][:path], 'bin', 'gunicorn')} #{node[:app][:wsgi]} -c #{gunicorn_config_path}"
@@ -71,9 +76,12 @@ supervisor_service "gunicorn-#{node[:app][:name]}" do
 end
 
 
+# nginx
 include_recipe 'nginx'
 nginx_web_app node[:app][:host] do
   cookbook 'nginx'
 end
 
+
+# td-agent
 include_recipe 'chef-td-agent'

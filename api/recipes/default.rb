@@ -30,7 +30,7 @@ end
 
 
 #include_recipe 'gunicorn'
-application node[:app][:host] do
+application node[:app][:name] do
   path       "#{node[:app][:directory]}/#{node[:app][:host]}"
   owner      'ec2-user'
   group      'ec2-user'

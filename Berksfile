@@ -4,5 +4,5 @@ site :opscode
 # packages, except when testing
 cookbook 'build-essential'
 cookbook 'python'
-cookbook 'gunicorn'
+cookbook 'application_python'
 cookbook 'chef-td-agent', github: 'treasure-data/chef-td-agent'

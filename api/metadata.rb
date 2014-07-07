@@ -5,6 +5,6 @@ description       'for api'
 version           '0.0.1'
 
 depends 'python'
-depends 'gunicorn'
+depends 'application_python'
 depends 'nginx'
 depends 'chef-td-agent'

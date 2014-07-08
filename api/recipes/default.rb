@@ -120,4 +120,4 @@ end
 
 
 # td-agent
-include_recipe 'chef-td-agent'
+include_recipe 'td-agent'

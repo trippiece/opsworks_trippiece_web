@@ -1,6 +1,3 @@
-Chef::Log.debug("Platform: #{node[:platform]}.")
-
-
 package 'git' do
   action :install
 end

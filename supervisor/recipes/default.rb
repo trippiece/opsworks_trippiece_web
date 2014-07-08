@@ -59,14 +59,9 @@ directory node['supervisor']['log_dir'] do
   recursive true
 end
 
-init_template_dir = value_for_platform_family(
-    ["rhel", "fedora"] => "rhel",
-    "debian" => "debian"
-)
-
 template "/etc/init.d/supervisor" do
   cookbook 'supervisor'
-  source "rhel/supervisor.init.erb"
+  source "supervisor.init.erb"
   owner "root"
   group "root"
   mode "755"

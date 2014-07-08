@@ -45,6 +45,7 @@ end
 
 ssh_known_hosts_entry 'github.com'
 
+include_recipe 's3_file'
 s3_file node[:sshkey][:path] do
   source node[:sshkey][:source]
   access_key_id node[:aws][:key]

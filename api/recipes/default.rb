@@ -45,13 +45,22 @@ end
 
 ssh_known_hosts_entry 'github.com'
 
+s3_file node[:sshkey][:path] do
+  source node[:sshkey][:source]
+  access_key_id node[:aws][:key]
+  secret_access_key node[:aws][:secret]
+  owner node[:app][:owner]
+  group node[:app][:group]
+  mode 0600
+end
+
 git "#{node[:app][:directory]}/#{node[:app][:host]}" do
   repository node[:app][:repository]
   revision "master"
   action :sync
   user node[:app][:owner]
   group node[:app][:group]
-  #ssh_wrapper "ssh -i /home/ec2-user/.ssh/id_rsa"
+  ssh_wrapper "ssh -i #{node[:sshkey][:path]}"
 end
 
 

@@ -1,3 +1,6 @@
+Chef::Log.debug("Platform: #{node[:platform]}.")
+
+
 package 'git' do
   action :install
 end
@@ -55,13 +58,26 @@ s3_file node[:sshkey][:path] do
   mode 0600
 end
 
-git "#{node[:app][:directory]}/#{node[:app][:host]}" do
+app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
+git app_directory do
   repository node[:app][:repository]
   revision "master"
   action :sync
   user node[:app][:owner]
   group node[:app][:group]
-#  ssh_wrapper "ssh -i #{node[:sshkey][:path]}"
+end
+
+
+# pip install
+bash "#{node[:virtualenv][:path]}/bin/pip install -r requirements.txt" do
+  cwd app_directory
+end
+
+
+# celeryd
+template node[:celery][:config] do
+  source 'celeryd.erb'
+  action :create
 end
 
 
@@ -78,12 +94,24 @@ end
 
 # supervisor
 include_recipe 'supervisor'
+# for gunicorn
 supervisor_service "gunicorn-#{node[:app][:name]}" do
   command "#{::File.join(node[:virtualenv][:path], 'bin', 'gunicorn')} #{node[:app][:wsgi]} -c #{gunicorn_config_path}"
   autostart true
   autorestart true
   user node[:app][:owner]
-  directory "#{node[:app][:directory]}/#{node[:app][:host]}/#{node[:app][:name]}"
+  directory "#{app_directory}/#{node[:app][:name]}"
+end
+# for celeryd
+supervisor_service "celeryd-#{node[:app][:name]}" do
+  command "#{::File.join(node[:virtualenv][:path], 'bin', 'celery')} worker --config=#{node[:celery][:config]} -l info"
+  autostart true
+  autorestart true
+  startsecs 10
+  stopwaitsecs 600
+  environment :DJANGO_SETTINGS_MODULE => "#{node[:app][:name]}.#{node[:app][:settings]}"
+  user node[:app][:owner]
+  directory "#{app_directory}/#{node[:app][:name]}"
 end
 
 

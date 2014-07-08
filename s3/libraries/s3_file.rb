@@ -50,7 +50,6 @@ class Chef
 
       def fetch_from_s3(source)
         begin
-          require  'rubygems'
           require  'aws-sdk'
           protocol, bucket, name = URI.split(source).compact
           name = name[1..-1]

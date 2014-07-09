@@ -108,6 +108,7 @@ supervisor_service "gunicorn-#{node[:app][:name]}" do
   autorestart true
   user node[:app][:owner]
   directory "#{app_directory}/#{node[:app][:name]}"
+  stderr_logfile "#{node[:supervisor][:log_dir]}/gunicorn-#{node[:app][:name]}-stderr.log"
 end
 # for celeryd
 supervisor_service "celeryd-#{node[:app][:name]}" do
@@ -127,6 +128,7 @@ supervisor_service "celeryd-#{node[:app][:name]}" do
               :CELERYD_GROUP => node[:app][:group]
   user node[:app][:owner]
   directory "#{app_directory}/#{node[:app][:name]}"
+  stderr_logfile "#{node[:supervisor][:log_dir]}/celeryd-#{node[:app][:name]}-stderr.log"
 end
 
 
@@ -139,3 +141,15 @@ end
 
 # td-agent
 include_recipe 'td-agent'
+
+directory '/var/lib/fluentd' do
+  owner 'td-agent'
+  group 'td-agent'
+  action :create
+end
+
+template "/etc/td-agent/td-agent.conf" do
+  source 'td-agent.conf.erb'
+  action :create
+  notifies :restart, "service[td-agent]", :delayed
+end

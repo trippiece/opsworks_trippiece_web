@@ -116,7 +116,7 @@ supervisor_service "celeryd-#{node[:app][:name]}" do
   autorestart true
   startsecs 10
   stopwaitsecs 600
-  environment :DJANGO_SETTINGS_MODULE => "#{node[:app][:name]}.#{node[:app][:settings]}",
+  environment :DJANGO_SETTINGS_MODULE => node[:app][:django_settings],
               :CELERYD_NODES => node[:app][:name],
               :CELERYD_CHDIR => "#{app_directory}/#{node[:app][:name]}",
               :ENV_PYTHON => "#{node[:virtualenv][:path]}/bin/python",

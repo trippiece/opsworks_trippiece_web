@@ -3,6 +3,11 @@ server {
     server_name  <%= node[:app][:host] %>;
     access_log  <%= node[:nginx][:log_dir] %>/<%= node[:app][:host] %>.access.log;
 
+    location /static/ {
+        alias <%= "#{node[:app][:directory]}/#{node[:app][:host]}/#{node[:app][:name]}/static/" %>;
+        autoindex off;
+    }
+
     location / {
         proxy_pass http://127.0.0.1:8000;
         proxy_set_header Host $host;

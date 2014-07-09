@@ -33,7 +33,15 @@
   tag <%= "#{node[:fluentd][:tag]}/celery" %>
 </source>
 
-# TODO supervisor
+# supervisor
+<source>
+  type tail
+  pos_file /var/lib/fluentd/supervisor.pos
+  format /^\[(?<time>[^,]*),[0-9]* (?<level>[^\/]*)\/[^\]]*\] (?<message>.*)$/
+  time_format %Y-%m-%d %H:%M:%S
+  path <%= "#{node[:supervisor][:log_dir]}/supervisord.log" %>
+  tag <%= "#{node[:fluentd][:tag]}/supervisor" %>
+</source>
 
 # syslog
 <source>

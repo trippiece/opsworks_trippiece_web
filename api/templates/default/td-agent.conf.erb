@@ -4,7 +4,7 @@
   pos_file /var/lib/fluentd/access_log.pos
   format nginx
   path <%= "#{node[:nginx][:log_dir]}/#{node[:app][:host]}.access.log" %>
-  tag <%= "#{node[:td-agent][:tag]}/access_log" %>
+  tag <%= "#{node[:fluentd][:tag]}/access_log" %>
 </source>
 
 # nginx error log
@@ -14,7 +14,7 @@
   format /^(?<time>.+) \[(?<level>[^\]]+)\] *(?<message>.*)$/
   time_format %Y/%m/%d %H:%M:%S
   path <%= "#{node[:nginx][:log_dir]}/error.log" %>
-  tag <%= "#{node[:td-agent][:tag]}/error_log" %>
+  tag <%= "#{node[:fluentd][:tag]}/error_log" %>
 </source>
 
 # fluent-logger/Django log
@@ -30,7 +30,7 @@
   format /^\[(?<time>[^,]*),[0-9]*: (?<level>[^\/]*)\/[^\]]*\] (?<message>.*)$/
   time_format %Y-%m-%d %H:%M:%S
   path <%= "#{node[:supervisor][:log_dir]}/celeryd-#{node[:app][:name]}-stderr.log" %>
-  tag <%= "#{node[:td-agent][:tag]}/celery" %>
+  tag <%= "#{node[:fluentd][:tag]}/celery" %>
 </source>
 
 # TODO supervisor
@@ -41,7 +41,7 @@
   pos_file /var/lib/fluentd/syslog.pos
   format syslog
   path /var/log/messages
-  tag <%= "#{node[:td-agent][:tag]}/syslog" %>
+  tag <%= "#{node[:fluentd][:tag]}/syslog" %>
 </source>
 
 # secure log
@@ -50,7 +50,7 @@
   pos_file /var/lib/fluentd/secure.pos
   format syslog
   path /var/log/secure
-  tag <%= "#{node[:td-agent][:tag]}/secure" %>
+  tag <%= "#{node[:fluentd][:tag]}/secure" %>
 </source>
 
 <match *.**>
@@ -63,7 +63,7 @@
   buffer_queue_limit 256
   buffer_chunk_limit 8m
   <server>
-    host <%= node[:td-agent][:host] %>
+    host <%= node[:fluentd][:host] %>
     port 24224
   </server>
 </match>

@@ -53,6 +53,7 @@ s3_file node[:sshkey][:path] do
   owner node[:app][:owner]
   group node[:app][:group]
   mode 0600
+  not_if { ::File.exists?(node[:sshkey][:path]) }
 end
 
 app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
@@ -66,14 +67,23 @@ end
 
 
 # pip install
-bash "#{node[:virtualenv][:path]}/bin/pip install -r requirements.txt" do
+bash "pip install -r requirements.txt" do
   cwd app_directory
+  code <<-EOC
+  #{node[:virtualenv][:path]}/bin/pip install -r requirements.txt
+  EOC
+  not_if { ::File.exists?("#{node[:virtualenv][:path]}/bin/celery") }
 end
 
 
-# celeryd
-template node[:celery][:config] do
-  source 'celeryd.erb'
+# place credential files.
+template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/settings_base_credential.py" do
+  source 'settings_base_credential.py.erb'
+  action :create
+end
+
+template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/#{node[:app][:credential]}" do
+  source 'settings_env_credential.py.erb'
   action :create
 end
 
@@ -101,12 +111,20 @@ supervisor_service "gunicorn-#{node[:app][:name]}" do
 end
 # for celeryd
 supervisor_service "celeryd-#{node[:app][:name]}" do
-  command "#{::File.join(node[:virtualenv][:path], 'bin', 'celery')} worker --config=#{node[:celery][:config]} -l info"
+  command "#{::File.join(node[:virtualenv][:path], 'bin', 'celery')} worker -l info"
   autostart true
   autorestart true
   startsecs 10
   stopwaitsecs 600
-  environment :DJANGO_SETTINGS_MODULE => "#{node[:app][:name]}.#{node[:app][:settings]}"
+  environment :DJANGO_SETTINGS_MODULE => "#{node[:app][:name]}.#{node[:app][:settings]}",
+              :CELERYD_NODES => node[:app][:name],
+              :CELERYD_CHDIR => "#{app_directory}/#{node[:app][:name]}",
+              :ENV_PYTHON => "#{node[:virtualenv][:path]}/bin/python",
+              :CELERY_BIN => "#{node[:virtualenv][:path]}/bin/celery",
+              :CELERY_APP => node[:app][:name],
+              :CELERYD_OPTS => "--time-limit=300 --concurrency=8",
+              :CELERYD_USER => node[:app][:owner],
+              :CELERYD_GROUP => node[:app][:group]
   user node[:app][:owner]
   directory "#{app_directory}/#{node[:app][:name]}"
 end

@@ -1,10 +1,5 @@
-package 'git' do
-  action :install
-end
-
-
-# python
-%w{python27 python27-devel python-pip}.each do |pkg|
+# install python and other required packages.
+%w{python27 python27-devel python-pip mysql mysql-devel libjpeg-devel}.each do |pkg|
   package pkg do
     action :upgrade
   end
@@ -24,14 +19,6 @@ python_virtualenv node[:virtualenv][:path] do
   group node[:app][:group]
   interpreter "python27"
   action :create
-end
-
-
-# MySQL
-%w{mysql mysql-devel}.each do |pkg|
-  package pkg do
-    action :upgrade
-  end
 end
 
 
@@ -58,8 +45,6 @@ directory node[:app][:directory] do
   action :create
 end
 
-ssh_known_hosts_entry 'github.com'
-
 s3_file node[:sshkey][:path] do
   source node[:sshkey][:source]
   access_key_id node[:aws][:key]
@@ -70,6 +55,8 @@ s3_file node[:sshkey][:path] do
   not_if { ::File.exists?(node[:sshkey][:path]) }
 end
 
+include_recipe 'ssh_ignore_host'
+
 app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
 git app_directory do
   repository node[:app][:repository]
@@ -77,6 +64,7 @@ git app_directory do
   action :sync
   user node[:app][:owner]
   group node[:app][:group]
+  ssh_wrapper node[:sshignorehost][:path]
 end
 
 

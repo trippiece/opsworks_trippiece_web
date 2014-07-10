@@ -29,7 +29,7 @@ include_recipe 's3'
 # stop sendmail first.
 service 'sendmail' do
   action [:disable, :stop]
-do
+end
 # install
 include_recipe 'postfix'
 # copy sasl db

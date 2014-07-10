@@ -74,6 +74,27 @@ git app_directory do
 end
 
 
+# install apns certificates
+s3_file node[:apns][:cert_path] do
+  source node[:apns][:cert_s3]
+  access_key_id node[:aws][:key]
+  secret_access_key node[:aws][:secret]
+  owner node[:app][:owner]
+  group node[:app][:group]
+  mode 0600
+  not_if { ::File.exists?(node[:apns][:cert_path]) }
+end
+s3_file node[:apns][:key_path] do
+  source node[:apns][:key_s3]
+  access_key_id node[:aws][:key]
+  secret_access_key node[:aws][:secret]
+  owner node[:app][:owner]
+  group node[:app][:group]
+  mode 0600
+  not_if { ::File.exists?(node[:apns][:key_path]) }
+end
+
+
 # pip install
 bash "pip install -r requirements.txt" do
   cwd app_directory

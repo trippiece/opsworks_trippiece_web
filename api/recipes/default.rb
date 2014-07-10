@@ -81,7 +81,7 @@ s3_file node[:apns][:key_path] do
   secret_access_key node[:aws][:secret]
   owner node[:app][:owner]
   group node[:app][:group]
-  mode 0600
+  mode 0644
   not_if { ::File.exists?(node[:apns][:key_path]) }
 end
 

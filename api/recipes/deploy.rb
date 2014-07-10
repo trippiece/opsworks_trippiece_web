@@ -35,7 +35,7 @@ end
 
 
 # restart supervisor services.
-%w{gunicorn-#{node[:app][:name]} celeryd-#{node[:app][:name]}}.each do |srv|
+%W{gunicorn-#{node[:app][:name]} celeryd-#{node[:app][:name]}}.each do |srv|
   supervisor_service srv do
     action :restart
   end

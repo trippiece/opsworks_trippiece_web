@@ -26,7 +26,13 @@ include_recipe 's3'
 
 
 # postfix
+# stop sendmail first.
+service 'sendmail' do
+  action [:disable, :stop]
+do
+# install
 include_recipe 'postfix'
+# copy sasl db
 s3_file '/etc/postfix/sasl_passwd.db' do
   source node[:postfix][:main][:sasl_passwd_s3]
   access_key_id node[:aws][:key]

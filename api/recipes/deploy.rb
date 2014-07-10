@@ -1,5 +1,3 @@
-include_recipe 'ssh_ignore_host'
-
 app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
 
 # deploy git repository.

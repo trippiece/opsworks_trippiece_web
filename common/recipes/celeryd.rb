@@ -1,3 +1,5 @@
+app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
+
 supervisor_service "celeryd-#{node[:app][:name]}" do
   command "#{::File.join(node[:virtualenv][:path], 'bin', 'celery')} worker -l info"
   autostart true

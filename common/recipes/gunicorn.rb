@@ -1,6 +1,8 @@
 include_recipe 'gunicorn'
 
+app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
 gunicorn_config_path = "/etc/gunicorn/#{node[:app][:name]}.py"
+
 gunicorn_config gunicorn_config_path do
   listen '127.0.0.1:8000'
   worker_processes (node['cpu'] && node['cpu']['total']) && [node['cpu']['total'].to_i * 2 + 1, 8].min || 5

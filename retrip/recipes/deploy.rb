@@ -18,24 +18,23 @@ bash "pip install -r requirements.txt" do
   EOC
 end
 
+# place credential files.
+template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/settings/settings_base_credential.py" do
+  source 'settings_base_credential.py.erb'
+  action :create
+end
+
+template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/settings/#{node[:app][:credential]}" do
+  source 'settings_env_credential.py.erb'
+  action :create
+end
+
 # grunt deploy
 bash "grunt deploy" do
   cwd app_directory
   code <<-EOC
   grunt deploy
   EOC
-end
-
-
-# place credential files.
-template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/settings_base_credential.py" do
-  source 'settings_base_credential.py.erb'
-  action :create
-end
-
-template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/#{node[:app][:credential]}" do
-  source 'settings_env_credential.py.erb'
-  action :create
 end
 
 # collectstatic and clearcache
@@ -47,9 +46,7 @@ bash "manage.py" do
   EOC
 end
 
-# restart supervisor services.
-%W{gunicorn-#{node[:app][:name]} celeryd-#{node[:app][:name]}}.each do |srv|
-  supervisor_service srv do
-    action :restart
-  end
+# restart gunicorn.
+supervisor_service "gunicorn-#{node[:app][:name]}" do
+  action :restart
 end

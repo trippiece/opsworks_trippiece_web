@@ -5,4 +5,5 @@ opsworks-cookbooks
 .vagrant
 .berkshelf
 /.idea
-/stack.json
+/api_*.json
+/retrip_*.json

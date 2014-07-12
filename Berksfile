@@ -1,7 +1,7 @@
 #source 'https://api.berkshelf.com' # for version 3
 site :opscode  # for version 2
 
-cookbook 'build-essential'
+#cookbook 'build-essential'
 cookbook 'python'
 cookbook 'supervisor'
 cookbook 'gunicorn'

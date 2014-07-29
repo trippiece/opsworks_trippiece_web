@@ -20,14 +20,6 @@ include_recipe 'common::repository'
 
 app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
 
-# install compilers of less and coffeescript.
-bash 'npm install' do
-  cwd app_directory
-  code <<-EOC
-  npm install
-  EOC
-end
-
 # place credential files.
 template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/settings/settings_base_credential.py" do
   source 'settings_base_credential.py.erb'

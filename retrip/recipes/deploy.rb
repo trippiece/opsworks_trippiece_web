@@ -29,6 +29,14 @@ template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/settings/#{
   action :create
 end
 
+# install compilers of less and coffeescript.
+bash 'npm install --production' do
+  cwd app_directory
+  code <<-EOC
+  npm install --production
+  EOC
+end
+
 # grunt deploy
 bash "grunt deploy" do
   cwd app_directory

@@ -3,7 +3,7 @@ app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
 # deploy git repository.
 git app_directory do
   repository node[:app][:repository]
-  revision "master"
+  revision node[:app][:revision]
   user node[:app][:owner]
   group node[:app][:group]
   ssh_wrapper node[:sshignorehost][:path]

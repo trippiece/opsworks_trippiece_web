@@ -1,6 +1,6 @@
 server {
     listen   80;
-    server_name  <%= node[:app][:host] %>;
+    server_name  .<%= node[:app][:host] %>;
     access_log  <%= node[:nginx][:log_dir] %>/<%= node[:app][:host] %>.access.log;
 
     proxy_set_header Host $host;

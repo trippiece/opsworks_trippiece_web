@@ -24,7 +24,7 @@ app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
 
 git app_directory do
   repository node[:app][:repository]
-  revision "master"
+  revision node[:app][:revision]
   action :sync
   user node[:app][:owner]
   group node[:app][:group]

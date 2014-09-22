@@ -1,0 +1,1 @@
+default['app']['revision'] = 'master'

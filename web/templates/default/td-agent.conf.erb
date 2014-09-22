@@ -1,0 +1,77 @@
+# api nginx access log
+<source>
+  type tail
+  pos_file /var/lib/fluentd/access_log.pos
+  format nginx
+  path <%= "#{node[:nginx][:log_dir]}/#{node[:app][:host]}.access.log" %>
+  tag <%= "#{node[:fluentd][:tag]}/access_log" %>
+</source>
+
+# nginx error log
+<source>
+  type tail
+  pos_file /var/lib/fluentd/error_log.pos
+  format /^(?<time>.+) \[(?<level>[^\]]+)\] *(?<message>.*)$/
+  time_format %Y/%m/%d %H:%M:%S
+  path <%= "#{node[:nginx][:log_dir]}/error.log" %>
+  tag <%= "#{node[:fluentd][:tag]}/error_log" %>
+</source>
+
+# fluent-logger/Django log
+<source>
+  type forward
+  port 24224
+</source>
+
+# celery log
+<source>
+  type tail
+  pos_file /var/lib/fluentd/celery.pos
+  format /^\[(?<time>[^,]*),[0-9]*: (?<level>[^\/]*)\/[^\]]*\] (?<message>.*)$/
+  time_format %Y-%m-%d %H:%M:%S
+  path <%= "#{node[:supervisor][:log_dir]}/celeryd-#{node[:app][:name]}-stderr.log" %>
+  tag <%= "#{node[:fluentd][:tag]}/celery" %>
+</source>
+
+# supervisor
+<source>
+  type tail
+  pos_file /var/lib/fluentd/supervisor.pos
+  format /^\[(?<time>[^,]*),[0-9]* (?<level>[^\/]*)\/[^\]]*\] (?<message>.*)$/
+  time_format %Y-%m-%d %H:%M:%S
+  path <%= "#{node[:supervisor][:log_dir]}/supervisord.log" %>
+  tag <%= "#{node[:fluentd][:tag]}/supervisor" %>
+</source>
+
+# syslog
+<source>
+  type tail
+  pos_file /var/lib/fluentd/syslog.pos
+  format syslog
+  path /var/log/messages
+  tag <%= "#{node[:fluentd][:tag]}/syslog" %>
+</source>
+
+# secure log
+<source>
+  type tail
+  pos_file /var/lib/fluentd/secure.pos
+  format syslog
+  path /var/log/secure
+  tag <%= "#{node[:fluentd][:tag]}/secure" %>
+</source>
+
+<match *.**>
+  type forward
+  retry_limit 17
+  retry_wait 1s
+  flush_interval 60s
+  buffer_type file
+  buffer_path /var/log/td-agent/forward_buffer_*
+  buffer_queue_limit 256
+  buffer_chunk_limit 8m
+  <server>
+    host <%= node[:fluentd][:host] %>
+    port 24224
+  </server>
+</match>

@@ -7,3 +7,4 @@ opsworks-cookbooks
 /.idea
 /api_*.json
 /retrip_*.json
+/web_*.json

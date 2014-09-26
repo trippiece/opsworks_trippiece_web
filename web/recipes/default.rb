@@ -20,8 +20,15 @@ include_recipe 'common::repository'
 
 include_recipe 's3'
 
+app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
+
 # install APNs key
-s3_file node[:apns][:key_path] do
+if node[:apns][:key_path].start_with?('/')
+  apn_key_path = node[:apns][:key_path]
+else
+  apn_key_path = "#{app_directory}/#{node[:apns][:key_path]}"
+end
+s3_file apn_key_path do
   source node[:apns][:key_s3]
   access_key_id node[:aws][:key]
   secret_access_key node[:aws][:secret]
@@ -30,8 +37,6 @@ s3_file node[:apns][:key_path] do
   mode 0644
   not_if { ::File.exists?(node[:apns][:key_path]) }
 end
-
-app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
 
 # place credential files.
 template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/settings_base_credential.py" do

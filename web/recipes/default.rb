@@ -7,6 +7,13 @@ include_recipe 'common::virtualenv'
   end
 end
 
+# install compass
+bash 'gem install compass -v 0.13.alpha.12 --pre' do
+  code <<-EOC
+  gem install compass -v 0.13.alpha.12 --pre
+  EOC
+end
+
 # install grunt-cli
 bash 'npm install -g grunt-cli' do
   code <<-EOC

@@ -12,10 +12,10 @@ end
 
 
 # pip install
-bash "pip install -r requirements.txt" do
+bash "pip install -r requirements_web.txt" do
   cwd app_directory
   code <<-EOC
-  #{node[:virtualenv][:path]}/bin/pip install -r requirements.txt
+  #{node[:virtualenv][:path]}/bin/pip install -r requirements_web.txt
   EOC
 end
 

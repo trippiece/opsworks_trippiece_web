@@ -21,8 +21,6 @@ bash 'npm install -g grunt-cli' do
   EOC
 end
 
-include_recipe 'common::hinemos_agent'
-
 include_recipe 'common::postfix'
 
 include_recipe 'common::repository'

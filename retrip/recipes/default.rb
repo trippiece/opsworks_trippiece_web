@@ -23,11 +23,15 @@ app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
 # place credential files.
 template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/settings/settings_base_credential.py" do
   source 'settings_base_credential.py.erb'
+  owner node[:app][:owner]
+  group node[:app][:group]
   action :create
 end
 
 template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/settings/#{node[:app][:credential]}" do
   source 'settings_env_credential.py.erb'
+  owner node[:app][:owner]
+  group node[:app][:group]
   action :create
 end
 

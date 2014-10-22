@@ -46,8 +46,6 @@ end
 # grunt deploy
 bash "grunt deploy" do
   cwd app_directory
-  user node[:app][:owner]
-  group node[:app][:group]
   code <<-EOC
   grunt deploy
   EOC

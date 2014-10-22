@@ -38,8 +38,6 @@ end
 # install compilers of less and coffeescript.
 bash 'npm install --production' do
   cwd app_directory
-  user node[:app][:owner]
-  group node[:app][:group]
   code <<-EOC
   npm install --production
   EOC

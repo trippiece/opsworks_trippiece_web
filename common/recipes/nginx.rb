@@ -1,3 +1,2 @@
 include_recipe 'nginx'
-nginx_web_app node[:app][:host] do
-end
+nginx_web_app node[:app][:host]

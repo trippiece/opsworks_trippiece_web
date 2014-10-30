@@ -1,2 +1,2 @@
 default['app']['revision'] = 'master'
-normal['nginx']['cookbook'] = 'retrip'
+override['nginx']['cookbook'] = 'retrip'

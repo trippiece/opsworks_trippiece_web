@@ -40,10 +40,7 @@ include_recipe 'supervisor'
 
 include_recipe 'common::gunicorn'
 
-include_recipe 'nginx'
-nginx_web_app node[:app][:host] do
-  cookbook 'retrip'
-end
+include_recipe 'common::nginx'
 
 include_recipe 'common::td-agent'
 # configuration

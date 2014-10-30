@@ -1,4 +1,4 @@
-define :nginx_web_app, :template => "site.erb", :enable => true do
+define :nginx_web_app, :template => "nginx_site.erb", :enable => true do
   include_recipe "nginx::service"
 
   application = params[:application]

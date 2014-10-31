@@ -14,6 +14,7 @@ end
 # pip install
 bash "pip install -r requirements_web.txt" do
   cwd app_directory
+  environment {'HOME' => "~#{node[:app][:owner]}"}
   code <<-EOC
   #{node[:virtualenv][:path]}/bin/pip install -r requirements_web.txt
   EOC

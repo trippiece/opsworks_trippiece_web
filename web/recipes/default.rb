@@ -7,6 +7,13 @@ include_recipe 'common::virtualenv'
   end
 end
 
+# install bundler
+bash 'gem install bundler' do
+  code <<-EOC
+  gem install bundler
+  EOC
+end
+
 # install compass
 bash 'gem install compass -v 0.13.alpha.12 --pre' do
   code <<-EOC

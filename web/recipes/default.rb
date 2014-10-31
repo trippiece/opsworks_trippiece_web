@@ -16,6 +16,7 @@ end
 
 # install gems
 bash 'bundle install' do
+  user node[:app][:owner]
   code <<-EOC
   bundle install
   EOC

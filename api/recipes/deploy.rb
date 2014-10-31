@@ -10,24 +10,28 @@ git app_directory do
   action :sync
 end
 
-
 # pip install
 bash "pip install -r requirements.txt" do
   cwd app_directory
+  user node[:app][:owner]
+  group node[:app][:group]
   code <<-EOC
   #{node[:virtualenv][:path]}/bin/pip install -r requirements.txt
   EOC
 end
 
-
 # place credential files.
 template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/settings_base_credential.py" do
   source 'settings_base_credential.py.erb'
+  owner node[:app][:owner]
+  group node[:app][:group]
   action :create
 end
 
 template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/#{node[:app][:credential]}" do
   source 'settings_env_credential.py.erb'
+  owner node[:app][:owner]
+  group node[:app][:group]
   action :create
 end
 

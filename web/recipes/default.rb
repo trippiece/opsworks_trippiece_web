@@ -14,11 +14,12 @@ bash 'gem install bundler' do
   EOC
 end
 
-# install compass
-bash 'gem install compass -v 0.13.alpha.12 --pre' do
+# install gems
+bash 'bundle install' do
   code <<-EOC
-  gem install compass -v 0.13.alpha.12 --pre
+  bundle install
   EOC
+  user 'ec2-user'
 end
 
 # install grunt-cli

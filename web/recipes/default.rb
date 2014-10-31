@@ -19,7 +19,6 @@ bash 'bundle install' do
   code <<-EOC
   bundle install
   EOC
-  user 'ec2-user'
 end
 
 # install grunt-cli

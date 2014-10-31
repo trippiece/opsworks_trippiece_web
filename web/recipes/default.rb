@@ -52,17 +52,6 @@ s3_file apn_key_path do
   not_if { ::File.exists?(node[:apns][:key_path]) }
 end
 
-# place credential files.
-template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/settings_base_credential.py" do
-  source 'settings_base_credential.py.erb'
-  action :create
-end
-
-template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/#{node[:app][:credential]}" do
-  source 'settings_env_credential.py.erb'
-  action :create
-end
-
 # supervisor must be called before gunicorn and celeryd.
 include_recipe 'supervisor'
 

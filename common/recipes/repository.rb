@@ -30,13 +30,3 @@ git app_directory do
   group node[:app][:group]
   ssh_wrapper node[:sshignorehost][:path]
 end
-
-# pip install
-bash "pip install -r requirements.txt" do
-  cwd app_directory
-  user node[:app][:owner]
-  group node[:app][:group]
-  code <<-EOC
-  #{node[:virtualenv][:path]}/bin/pip install -r requirements.txt
-  EOC
-end

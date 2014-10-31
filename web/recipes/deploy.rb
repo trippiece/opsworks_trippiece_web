@@ -10,7 +10,6 @@ git app_directory do
   action :sync
 end
 
-
 # pip install
 bash "pip install -r requirements_web.txt" do
   cwd app_directory
@@ -20,7 +19,6 @@ bash "pip install -r requirements_web.txt" do
   #{node[:virtualenv][:path]}/bin/pip install -r requirements_web.txt
   EOC
 end
-
 
 # place credential files.
 template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/settings_base_credential.py" do
@@ -35,6 +33,16 @@ template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/#{node[:app
   owner node[:app][:owner]
   group node[:app][:group]
   action :create
+end
+
+# install gems
+bash 'bundle install' do
+  cwd app_directory
+  user node[:app][:owner]
+  group node[:app][:group]
+  code <<-EOC
+  bundle install
+  EOC
 end
 
 # install compilers of less and coffeescript.

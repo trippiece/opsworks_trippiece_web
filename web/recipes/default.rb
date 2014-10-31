@@ -14,18 +14,6 @@ bash 'gem install bundler' do
   EOC
 end
 
-app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
-
-# install gems
-bash 'bundle install' do
-  cwd app_directory
-  user node[:app][:owner]
-  group node[:app][:group]
-  code <<-EOC
-  bundle install
-  EOC
-end
-
 # install grunt-cli
 bash 'npm install -g grunt-cli' do
   code <<-EOC

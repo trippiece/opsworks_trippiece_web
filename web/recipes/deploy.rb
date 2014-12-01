@@ -61,7 +61,7 @@ bash "grunt deploy" do
   EOC
 end
 
-# collectstatic and clearcache
+# collectstatic
 bash "manage.py" do
   cwd "#{app_directory}/#{node[:app][:name]}"
   user node[:app][:owner]

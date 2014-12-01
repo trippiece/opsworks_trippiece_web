@@ -35,6 +35,16 @@ template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/#{node[:app
   action :create
 end
 
+# collectstatic and clearcache
+bash "manage.py" do
+  cwd "#{app_directory}/#{node[:app][:name]}"
+  user node[:app][:owner]
+  group node[:app][:group]
+  code <<-EOC
+  #{node[:virtualenv][:path]}/bin/python manage.py collectstatic --noinput --settings=#{node[:app][:django_settings]}
+  #{node[:virtualenv][:path]}/bin/python manage.py migrate --settings=#{node[:app][:django_settings]}
+  EOC
+end
 
 # restart supervisor services.
 %W{gunicorn-#{node[:app][:name]} celeryd-#{node[:app][:name]}}.each do |srv|

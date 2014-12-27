@@ -23,14 +23,24 @@
   port 24224
 </source>
 
-# celery log
+# celeryd log
 <source>
   type tail
-  pos_file /var/lib/fluentd/celery.pos
+  pos_file /var/lib/fluentd/celeryd.pos
   format /^\[(?<time>[^,]*),[0-9]*: (?<level>[^\/]*)\/[^\]]*\] (?<message>.*)$/
   time_format %Y-%m-%d %H:%M:%S
   path <%= "#{node[:supervisor][:log_dir]}/celeryd-#{node[:app][:name]}-stderr.log" %>
-  tag <%= "#{node[:fluentd][:tag]}/celery" %>
+  tag <%= "#{node[:fluentd][:tag]}/celeryd" %>
+</source>
+
+# celerybeat log
+<source>
+  type tail
+  pos_file /var/lib/fluentd/celerybeat.pos
+  format /^\[(?<time>[^,]*),[0-9]*: (?<level>[^\/]*)\/[^\]]*\] (?<message>.*)$/
+  time_format %Y-%m-%d %H:%M:%S
+  path <%= "#{node[:supervisor][:log_dir]}/celerybeat-#{node[:app][:name]}-stderr.log" %>
+  tag <%= "#{node[:fluentd][:tag]}/celerybeat" %>
 </source>
 
 # supervisor

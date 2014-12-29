@@ -47,7 +47,7 @@ bash "manage.py" do
 end
 
 # restart supervisor services.
-%W{gunicorn-#{node[:app][:name]} celeryd-#{node[:app][:name]}}.each do |srv|
+%W{gunicorn-#{node[:app][:name]} celeryd-#{node[:app][:name]} celerybeat-#{node[:app][:name]}}.each do |srv|
   supervisor_service srv do
     action :restart
   end

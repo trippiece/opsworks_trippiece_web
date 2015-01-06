@@ -1,7 +1,7 @@
 include_recipe 'common::virtualenv'
 
 # install python and other required packages.
-%w{mysql mysql-devel libjpeg-devel}.each do |pkg|
+%w{mysql mysql-devel libmemcached libmemcached-devel libjpeg-devel}.each do |pkg|
   package pkg do
     action :upgrade
   end

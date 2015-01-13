@@ -1,0 +1,1 @@
+default['nginx']['custom_block_ips'] = []

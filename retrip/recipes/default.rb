@@ -23,6 +23,10 @@ include_recipe 'supervisor'
 
 include_recipe 'common::gunicorn'
 
+include_recipe 'common::celeryd'
+
+include_recipe 'common::celerybeat'
+
 include_recipe 'common::nginx'
 
 include_recipe 'common::td-agent'

@@ -64,7 +64,9 @@ bash "manage.py" do
   EOC
 end
 
-# restart gunicorn.
-supervisor_service "gunicorn-#{node[:app][:name]}" do
-  action :restart
+# restart supervisor services.
+%W{gunicorn-#{node[:app][:name]} celeryd-#{node[:app][:name]} celerybeat-#{node[:app][:name]}}.each do |srv|
+  supervisor_service srv do
+    action :restart
+  end
 end

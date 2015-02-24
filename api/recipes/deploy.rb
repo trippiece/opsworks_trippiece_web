@@ -35,7 +35,7 @@ template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/#{node[:app
   action :create
 end
 
-# collectstatic and clearcache
+# collectstatic
 bash "manage.py" do
   cwd "#{app_directory}/#{node[:app][:name]}"
   user node[:app][:owner]

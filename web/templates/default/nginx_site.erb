@@ -17,6 +17,10 @@ server {
     }
 
     location / {
+        # defining a new header in other locations result in resetting all previously defined headers.
+        # so the Host header needs to be redefined here.
+        # See https://gist.github.com/thoop/8165802#comment-1375035
+        proxy_set_header Host $host;
         proxy_set_header X-Prerender-Token <%= node[:nginx][:prerender_token] %>;
 
         set $prerender 0;

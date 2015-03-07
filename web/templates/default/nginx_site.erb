@@ -11,6 +11,11 @@ server {
     deny <%= ip %>;
 <% end %>
 
+<% if node[:nginx][:basic_auth_entries].length > 0 %>
+    auth_basic "<%= node[:nginx][:basic_auth_realm] %>";
+    auth_basic_user_file <%= node[:nginx][:basic_auth_file] %>;
+<% end %>
+
     location /static/ {
         alias <%= "#{node[:app][:directory]}/#{node[:app][:host]}/#{node[:app][:name]}/static/" %>;
         autoindex off;

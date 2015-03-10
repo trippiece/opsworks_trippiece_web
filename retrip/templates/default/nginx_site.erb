@@ -1,9 +1,9 @@
 server {
     listen   80;
-<% if node[:app][:default_server_name] %>
-    server_name  <%= node[:app][:default_server_name] %>;
-<% else %>
+<% if node[:app][:default_server_name].empty? %>
     server_name  .<%= node[:app][:host] %>;
+<% else %>
+    server_name  <%= node[:app][:default_server_name] %>;
 <% end %>
     access_log  <%= node[:nginx][:log_dir] %>/<%= node[:app][:host] %>.access.log;
 

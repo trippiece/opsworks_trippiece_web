@@ -30,7 +30,7 @@ include_recipe 'common::celerybeat'
 include_recipe 'common::nginx'
 
 # install api site-config
-if node[:app][:api_host]
+unless node[:app][:api_host].empty?
   nginx_web_app node[:app][:api_host] do
     cookbook node[:nginx][:cookbook]
     template 'nginx_site_api.erb'

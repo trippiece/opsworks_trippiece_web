@@ -38,3 +38,9 @@ server {
     }
 
 }
+
+# block requests without valid domain.
+server {
+    listen 80 default_server;
+    return 404;
+}

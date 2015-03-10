@@ -1,11 +1,9 @@
 server {
     listen   80;
-<% if node[:app][:api_host].empty? %>
-    # the site-config serves multiple subdomains.
-    server_name  .<%= node[:app][:host] %>;
+<% if node[:app][:default_server_name] %>
+    server_name  <%= node[:app][:default_server_name] %>;
 <% else %>
-    # make way for api subdomain.
-    server_name  <%= node[:app][:host] %>;
+    server_name  .<%= node[:app][:host] %>;
 <% end %>
     access_log  <%= node[:nginx][:log_dir] %>/<%= node[:app][:host] %>.access.log;
 
@@ -53,4 +51,10 @@ server {
         deny all;
     }
 
+}
+
+# block requests without valid domain.
+server {
+    listen 80 default_server;
+    return 404;
 }

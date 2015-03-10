@@ -29,6 +29,14 @@ include_recipe 'common::celerybeat'
 
 include_recipe 'common::nginx'
 
+# install api site-config
+if node[:app][:api_host]
+  nginx_web_app node[:app][:api_host] do
+    cookbook node[:nginx][:cookbook]
+    template 'nginx_site_api.erb'
+  end
+end
+
 include_recipe 'common::td-agent'
 # configuration
 template "/etc/td-agent/td-agent.conf" do

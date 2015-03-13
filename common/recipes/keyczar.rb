@@ -5,6 +5,7 @@ directory keyczar_path do
   owner node[:app][:owner]
   group node[:app][:group]
   mode 0700
+  recursive true
   action :create
 end
 

@@ -18,6 +18,8 @@ include_recipe 'common::postfix'
 
 include_recipe 'common::repository'
 
+include_recipe 'common::keyczar'
+
 # supervisor must be called before gunicorn and celeryd.
 include_recipe 'supervisor'
 

@@ -24,6 +24,7 @@ supervisor_service "gunicorn-#{node[:app][:name]}" do
   command "#{::File.join(node[:virtualenv][:path], 'bin', 'gunicorn')} #{node[:app][:wsgi]} -c #{gunicorn_config_path}"
   autostart true
   autorestart true
+  startsecs 10
   user node[:app][:owner]
   directory "#{app_directory}/#{node[:app][:name]}"
   stderr_logfile "#{node[:supervisor][:log_dir]}/gunicorn-#{node[:app][:name]}-stderr.log"

@@ -5,7 +5,7 @@ supervisor_service "celeryd-#{node[:app][:name]}" do
   autostart true
   autorestart true
   startsecs 10
-  stopwaitsecs 600
+  stopwaitsecs 21600
   environment :DJANGO_SETTINGS_MODULE => node[:app][:django_settings],
               :CELERYD_NODES => node[:app][:name],
               :CELERYD_CHDIR => "#{app_directory}/#{node[:app][:name]}",

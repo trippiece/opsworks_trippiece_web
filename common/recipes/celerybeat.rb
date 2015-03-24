@@ -5,7 +5,7 @@ supervisor_service "celerybeat-#{node[:app][:name]}" do
   autostart true
   autorestart true
   startsecs 10
-  stopwaitsecs 600
+  stopwaitsecs 21600
   environment :DJANGO_SETTINGS_MODULE => node[:app][:django_settings],
               :ENV_PYTHON => "#{node[:virtualenv][:path]}/bin/python",
               :CELERY_BIN => "#{node[:virtualenv][:path]}/bin/celery",

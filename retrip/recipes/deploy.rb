@@ -59,8 +59,8 @@ bash "manage.py" do
   code <<-EOC
   #{node[:virtualenv][:path]}/bin/python manage.py downloadcertificate --settings=#{node[:app][:django_settings]}
   #{node[:virtualenv][:path]}/bin/python manage.py collectstatic --noinput --settings=#{node[:app][:django_settings]}
-  #{node[:virtualenv][:path]}/bin/python manage.py clearcache --settings=#{node[:app][:django_settings]}
   #{node[:virtualenv][:path]}/bin/python manage.py migrate --settings=#{node[:app][:django_settings]}
+  #{node[:virtualenv][:path]}/bin/python manage.py clearcache --settings=#{node[:app][:django_settings]}
   EOC
 end
 
@@ -69,4 +69,14 @@ end
   supervisor_service srv do
     action :restart
   end
+end
+
+# clearcache again after the restart to make sure that the old cache is all cleared.
+bash "manage.py clearcache" do
+  cwd "#{app_directory}/#{node[:app][:name]}"
+  user node[:app][:owner]
+  group node[:app][:group]
+  code <<-EOC
+  #{node[:virtualenv][:path]}/bin/python manage.py clearcache --settings=#{node[:app][:django_settings]}
+  EOC
 end

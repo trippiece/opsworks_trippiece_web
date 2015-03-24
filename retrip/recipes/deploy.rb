@@ -44,10 +44,10 @@ bash 'npm install --production' do
 end
 
 # grunt deploy
-bash "grunt deploy" do
+bash "grunt #{node[:app][:grunt_target]}" do
   cwd app_directory
   code <<-EOC
-  grunt deploy
+  grunt #{node[:app][:grunt_target]}
   EOC
 end
 

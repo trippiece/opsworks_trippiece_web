@@ -17,6 +17,10 @@ server {
     }
 
     location / {
+<% if node[:nginx][:basic_auth_entries].length > 0 %>
+        auth_basic "<%= node[:nginx][:basic_auth_realm] %>";
+        auth_basic_user_file <%= node[:nginx][:basic_auth_file] %>;
+<% end %>
         proxy_pass http://127.0.0.1:8000;
     }
 

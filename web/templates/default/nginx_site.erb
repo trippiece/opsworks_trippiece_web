@@ -17,6 +17,10 @@ server {
     }
 
     location / {
+<% if node[:nginx][:basic_auth_entries].length > 0 %>
+        auth_basic "<%= node[:nginx][:basic_auth_realm] %>";
+        auth_basic_user_file <%= node[:nginx][:basic_auth_file] %>;
+<% end %>
         # defining a new header in other locations result in resetting all previously defined headers.
         # so the Host header needs to be redefined here.
         # See https://gist.github.com/thoop/8165802#comment-1375035

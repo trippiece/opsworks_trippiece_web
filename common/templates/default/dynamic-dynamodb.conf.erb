@@ -65,6 +65,12 @@ max-provisioned-writes: <%= node[:dynamodb][:default][:max_provision] %>
 # Topic ARN to publish notifications to
 sns-topic-arn: <%= node[:dynamodb][:default][:sns_topic_arn] %>
 sns-message-types: scale-up, scale-down
+#
+# Other settings
+#
+# Allow down scaling when at 0% consumed reads
+allow-scaling-down-reads-on-0-percent: <%= node[:dynamodb][:default][:allow_scaling_down_on_0_percent] %>
+allow-scaling-down-writes-on-0-percent: <%= node[:dynamodb][:default][:allow_scaling_down_on_0_percent] %>
 
 
 

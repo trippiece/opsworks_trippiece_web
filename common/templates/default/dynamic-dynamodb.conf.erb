@@ -1,0 +1,76 @@
+[global]
+# AWS access keys
+aws-access-key-id: <%= node[:aws][:key] %>
+aws-secret-access-key-id: <%= node[:aws][:secret] %>
+
+# AWS region to use
+region: <%= node[:aws][:region] %>
+
+# How often should Dynamic DynamoDB monitor changes (in seconds)
+check-interval: <%= node[:dynamodb][:check_interval] %>
+
+# Circuit breaker configuration
+# No provisioning updates will be made unless this URL returns
+# a HTTP 200 OK status code
+circuit-breaker-url: <%= node[:dynamodb][:breaker_url] %>
+circuit-breaker-timeout: 10000.00
+
+
+
+[logging]
+# Log level [debug|info|warning|error]
+log-level: info
+
+# Log file (comment out to get only console output)
+#log-file: /var/log/dynamic-dynamodb.log
+
+# External Python logging configuration file
+# Overrides both log-level and log-file
+# log-config-file: /path/to/logging.conf
+
+
+
+[default_options]
+#
+# Read provisioning configuration
+#
+# Units to increase or decrease reads with, must be either percent or units
+increase-reads-unit: percent
+decrease-reads-unit: percent
+# Thresholds for scaling up or down the provisioning (%)
+reads-upper-threshold: <%= node[:dynamodb][:default][:upper_threshold] %>
+reads-lower-threshold: <%= node[:dynamodb][:default][:lower_threshold] %>
+# How many percent should Dynamic DynamoDB increase/decrease provisioning with (%)
+increase-reads-with: <%= node[:dynamodb][:default][:increase_with] %>
+decrease-reads-with: <%= node[:dynamodb][:default][:decrease_with] %>
+# Maximum read provisioning
+max-provisioned-reads: <%= node[:dynamodb][:default][:max_provision] %>
+#
+# Write provisioning configuration
+#
+# Units to increase or decrease writes with, must be either percent or units
+increase-writes-unit: percent
+decrease-writes-unit: percent
+# Thresholds for scaling up or down the provisioning (%)
+writes-upper-threshold: <%= node[:dynamodb][:default][:upper_threshold] %>
+writes-lower-threshold: <%= node[:dynamodb][:default][:lower_threshold] %>
+# How many percent should Dynamic DynamoDB increase/decrease provisioning with (%)
+increase-writes-with: <%= node[:dynamodb][:default][:increase_with] %>
+decrease-writes-with: <%= node[:dynamodb][:default][:decrease_with] %>
+# Maximum write provisioning
+max-provisioned-writes: <%= node[:dynamodb][:default][:max_provision] %>
+#
+# Simple Notification Service configuration
+#
+# Topic ARN to publish notifications to
+sns-topic-arn: <%= node[:dynamodb][:default][:sns_topic_arn] %>
+sns-message-types: scale-up, scale-down
+
+
+
+<% node[:dynamodb][:tables].each do |tbl| %>
+[table: <%= tbl[:name_re] %>]
+# Minimum provisioning
+min-provisioned-reads: <%= tbl[:min_provisioned_reads] %>
+min-provisioned-writes: <%= tbl[:min_provisioned_writes] %>
+<% end %>

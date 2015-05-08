@@ -33,6 +33,8 @@ include_recipe 'common::celeryd'
 
 include_recipe 'common::celerybeat'
 
+include_recipe 'common::dynamic_dynamodb'
+
 include_recipe 'common::nginx'
 
 include_recipe 'common::td-agent'

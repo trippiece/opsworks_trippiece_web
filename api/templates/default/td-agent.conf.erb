@@ -27,8 +27,7 @@
 <source>
   type tail
   pos_file /var/lib/fluentd/celeryd.pos
-  format /^\[(?<time>[^,]*),[0-9]*: (?<level>[^\/]*)\/[^\]]*\] (?<message>.*)$/
-  time_format %Y-%m-%d %H:%M:%S
+  format none
   path <%= "#{node[:supervisor][:log_dir]}/celeryd-#{node[:app][:name]}-stderr.log" %>
   tag <%= "#{node[:fluentd][:tag]}/celeryd" %>
 </source>
@@ -37,10 +36,18 @@
 <source>
   type tail
   pos_file /var/lib/fluentd/celerybeat.pos
-  format /^\[(?<time>[^,]*),[0-9]*: (?<level>[^\/]*)\/[^\]]*\] (?<message>.*)$/
-  time_format %Y-%m-%d %H:%M:%S
+  format none
   path <%= "#{node[:supervisor][:log_dir]}/celerybeat-#{node[:app][:name]}-stderr.log" %>
   tag <%= "#{node[:fluentd][:tag]}/celerybeat" %>
+</source>
+
+# dynamic-dynamodb log
+<source>
+  type tail
+  pos_file /var/lib/fluentd/dynamic-dynamodb.pos
+  format none
+  path <%= "#{node[:supervisor][:log_dir]}/dynamic-dynamodb-stderr.log" %>
+  tag <%= "#{node[:fluentd][:tag]}/dynamic-dynamodb" %>
 </source>
 
 # supervisor

@@ -3,7 +3,8 @@ bash "pip install dynamic-dynamodb" do
   user node[:app][:owner]
   group node[:app][:group]
   code <<-EOC
-  #{node[:virtualenv][:path]}/bin/pip install dynamic-dynamodb==1.20.4
+  export HOME=~#{node[:app][:owner]}
+  #{node[:virtualenv][:path]}/bin/pip install dynamic-dynamodb==1.20.5
   EOC
 end
 

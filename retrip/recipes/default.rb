@@ -1,7 +1,7 @@
 include_recipe 'common::virtualenv'
 
-# install python and other required packages.
-%w{mysql mysql-devel libmemcached libmemcached-devel npm libjpeg-devel}.each do |pkg|
+# install required packages.
+%w{libmemcached libmemcached-devel npm libjpeg-devel}.each do |pkg|
   package pkg do
     action :upgrade
   end
@@ -15,6 +15,16 @@ bash 'npm install -g grunt-cli' do
 end
 
 include_recipe 'common::postfix'
+
+# upgrade postfix to alpha version in order to uninstall postgresql92-libs and then install postgresql94-devel.
+bash 'upgrade postfix' do
+  code <<-EOC
+  yum --enablerepo amzn-preview update postfix
+  service postfix restart
+  EOC
+end
+
+include_recipe 'common::postgresql'
 
 include_recipe 'common::repository'
 

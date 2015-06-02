@@ -4,7 +4,7 @@ bash 'add a repository and install postgresql 9.4' do
   code <<-EOC
   rpm -ivh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-redhat94-9.4-1.noarch.rpm
   yum-config-manager --disable pgdg94
-  yum erase -y postgresql92 postgresql92-devel postgresql92-libs postgresql93 postgresql93-devel
+  yum erase -y postgresql92 postgresql92-devel postgresql92-libs postgresql93 postgresql93-devel postgresql93-libs
   yum --disablerepo="*" --enablerepo="pgdg94" --releasever="7" install -y postgresql94-devel.x86_64
   EOC
 end

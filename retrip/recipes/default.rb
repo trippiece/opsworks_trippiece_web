@@ -14,17 +14,9 @@ bash 'npm install -g grunt-cli' do
   EOC
 end
 
-include_recipe 'common::postfix'
-
-# upgrade postfix to alpha version in order to uninstall postgresql92-libs and then install postgresql94-devel.
-bash 'upgrade postfix' do
-  code <<-EOC
-  yum --enablerepo amzn-preview install postfix
-  service postfix restart
-  EOC
-end
-
 include_recipe 'common::postgresql'
+
+include_recipe 'common::postfix'
 
 include_recipe 'common::repository'
 

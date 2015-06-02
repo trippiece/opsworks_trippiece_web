@@ -19,7 +19,7 @@ include_recipe 'common::postfix'
 # upgrade postfix to alpha version in order to uninstall postgresql92-libs and then install postgresql94-devel.
 bash 'upgrade postfix' do
   code <<-EOC
-  yum --enablerepo amzn-preview update postfix
+  yum --enablerepo amzn-preview install postfix
   service postfix restart
   EOC
 end

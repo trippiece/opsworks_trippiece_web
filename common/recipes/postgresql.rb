@@ -11,7 +11,7 @@ end
 
 # set permanent global PATH variable for postgresql.
 cookbook_file "/etc/profile.d/pgsql.sh" do
-  source "profile_pgsql.sh"
+  source "pgsql.sh"
 end
 # set it temporarily.
 ENV['PATH'] += ":/usr/pgsql-9.4/bin"

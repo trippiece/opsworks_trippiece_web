@@ -17,7 +17,7 @@ end
 include_recipe 'common::postfix'
 
 include_recipe 'common::repository'
-
+app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
 # place credential files.
 template "#{app_directory}/#{node[:app][:name]}/#{node[:app][:name]}/settings/settings_base_credential.py" do
   source 'settings_base_credential.py.erb'

@@ -48,12 +48,21 @@ bash "manage.py" do
        "#{node[:virtualenv][:path]}/bin/python manage.py clearcache --settings=#{node[:app][:django_settings]}"
 end
 
-# restart gunicorn
-bash "reload gunicorn" do
-  code <<-EOC
-  supervisorctl status gunicorn-#{node[:app][:name]} | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP
-  EOC
+# start or reload gunicorn depending on the current status.
+if `supervisorctl status gunicorn-#{node[:app][:name]} | awk '{print $2}'` == 'RUNNING'
+  # reload it.
+  bash "reload gunicorn" do
+    code <<-EOC
+    supervisorctl status gunicorn-#{node[:app][:name]} | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP
+    EOC
+  end
+else
+  # or start it.
+  supervisor_service "gunicorn-#{node[:app][:name]}" do
+    action :restart
+  end
 end
+
 
 # restart celery services.
 %W{celeryd-#{node[:app][:name]} celerybeat-#{node[:app][:name]}}.each do |srv|

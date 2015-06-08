@@ -49,7 +49,7 @@ bash "manage.py" do
 end
 
 # start or reload gunicorn depending on the current status.
-if `supervisorctl status gunicorn-#{node[:app][:name]} | awk '{print $2}'` == 'RUNNING'
+if `supervisorctl status gunicorn-#{node[:app][:name]} | awk '{print $2}'` =~ /^RUNNING$/
   # reload it.
   bash "reload gunicorn" do
     code <<-EOC

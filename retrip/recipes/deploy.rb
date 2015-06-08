@@ -53,7 +53,7 @@ if `supervisorctl status gunicorn-#{node[:app][:name]} | awk '{print $2}'` =~ /^
   # reload it.
   bash "reload gunicorn" do
     code <<-EOC
-    supervisorctl status gunicorn-#{node[:app][:name]} | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP
+    supervisorctl status gunicorn-#{node[:app][:name]} | awk '{gsub(/,$/, "", $4); print $4}' | xargs kill -HUP
     EOC
   end
 else

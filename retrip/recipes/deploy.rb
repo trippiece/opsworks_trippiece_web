@@ -63,8 +63,15 @@ bash "manage.py" do
        "#{node[:virtualenv][:path]}/bin/python manage.py clearcache --settings=#{node[:app][:django_settings]}"
 end
 
-# restart supervisor services.
-%W{gunicorn-#{node[:app][:name]} celeryd-#{node[:app][:name]} celerybeat-#{node[:app][:name]}}.each do |srv|
+# restart gunicorn
+bash "reload gunicorn" do
+  code <<-EOC
+  supervisorctl status gunicorn-#{node[:app][:name]} | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP
+  EOC
+end
+
+# restart celery services.
+%W{celeryd-#{node[:app][:name]} celerybeat-#{node[:app][:name]}}.each do |srv|
   supervisor_service srv do
     action :restart
   end

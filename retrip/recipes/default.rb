@@ -1,7 +1,7 @@
 include_recipe 'common::virtualenv'
 
-# install python and other required packages.
-%w{mysql mysql-devel libmemcached libmemcached-devel npm libjpeg-devel}.each do |pkg|
+# install required packages.
+%w{libmemcached libmemcached-devel npm libjpeg-devel}.each do |pkg|
   package pkg do
     action :upgrade
   end
@@ -13,6 +13,8 @@ bash 'npm install -g grunt-cli' do
   npm install -g grunt-cli
   EOC
 end
+
+include_recipe 'common::postgresql'
 
 include_recipe 'common::postfix'
 

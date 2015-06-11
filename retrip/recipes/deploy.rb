@@ -44,8 +44,7 @@ bash "manage.py" do
   group node[:app][:group]
   code "#{node[:virtualenv][:path]}/bin/python manage.py downloadcertificate --settings=#{node[:app][:django_settings]} && " +
        "#{node[:virtualenv][:path]}/bin/python manage.py collectstatic --noinput --settings=#{node[:app][:django_settings]} && " +
-       "#{node[:virtualenv][:path]}/bin/python manage.py migrate --settings=#{node[:app][:django_settings]} && " +
-       "#{node[:virtualenv][:path]}/bin/python manage.py clearcache --settings=#{node[:app][:django_settings]}"
+       "#{node[:virtualenv][:path]}/bin/python manage.py migrate --settings=#{node[:app][:django_settings]}"
 end
 
 # start or reload gunicorn depending on the current status.
@@ -63,15 +62,7 @@ else
   end
 end
 
-
-# restart celery services.
-%W{celeryd-#{node[:app][:name]} celerybeat-#{node[:app][:name]}}.each do |srv|
-  supervisor_service srv do
-    action :restart
-  end
-end
-
-# clearcache again after the restart to make sure that the old cache is all cleared.
+# clearcache after the restart of gunicorn.
 bash "manage.py clearcache" do
   cwd "#{app_directory}/#{node[:app][:name]}"
   user node[:app][:owner]
@@ -79,4 +70,11 @@ bash "manage.py clearcache" do
   code <<-EOC
   #{node[:virtualenv][:path]}/bin/python manage.py clearcache --settings=#{node[:app][:django_settings]}
   EOC
+end
+
+# restart celery services.
+%W{celeryd-#{node[:app][:name]} celerybeat-#{node[:app][:name]}}.each do |srv|
+  supervisor_service srv do
+    action :restart
+  end
 end

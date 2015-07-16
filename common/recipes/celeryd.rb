@@ -12,7 +12,7 @@ supervisor_service "celeryd-#{node[:app][:name]}" do
               :ENV_PYTHON => "#{node[:virtualenv][:path]}/bin/python",
               :CELERY_BIN => "#{node[:virtualenv][:path]}/bin/celery",
               :CELERY_APP => node[:app][:name],
-              :CELERYD_OPTS => "--concurrency=2",
+              :CELERYD_OPTS => "--concurrency=4",
               :CELERYD_USER => node[:app][:owner],
               :CELERYD_GROUP => node[:app][:group]
   user node[:app][:owner]

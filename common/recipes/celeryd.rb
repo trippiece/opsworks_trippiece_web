@@ -1,7 +1,7 @@
 app_directory = "#{node[:app][:directory]}/#{node[:app][:host]}"
 
 supervisor_service "celeryd-#{node[:app][:name]}" do
-  command "#{::File.join(node[:virtualenv][:path], 'bin', 'celery')} worker -l info"
+  command "#{::File.join(node[:virtualenv][:path], 'bin', 'celery')} worker -l info --concurrency=4"
   autostart true
   autorestart true
   startsecs 10
@@ -12,7 +12,6 @@ supervisor_service "celeryd-#{node[:app][:name]}" do
               :ENV_PYTHON => "#{node[:virtualenv][:path]}/bin/python",
               :CELERY_BIN => "#{node[:virtualenv][:path]}/bin/celery",
               :CELERY_APP => node[:app][:name],
-              :CELERYD_OPTS => "--concurrency=4",
               :CELERYD_USER => node[:app][:owner],
               :CELERYD_GROUP => node[:app][:group]
   user node[:app][:owner]

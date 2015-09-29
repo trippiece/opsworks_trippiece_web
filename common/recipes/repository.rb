@@ -1,9 +1,8 @@
-include_recipe 's3'
-
 s3_file node[:sshkey][:path] do
-  source node[:sshkey][:source]
-  access_key_id node[:aws][:key]
-  secret_access_key node[:aws][:secret]
+  remote_path node[:sshkey][:source]
+  aws_access_key_id node[:aws][:key]
+  aws_secret_access_key node[:aws][:secret]
+  bucket node[:aws][:s3_bucket]
   owner node[:app][:owner]
   group node[:app][:group]
   mode 0600

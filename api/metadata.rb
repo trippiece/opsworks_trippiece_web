@@ -5,5 +5,5 @@ description       'for api'
 version           '0.0.1'
 
 depends 'common'
-depends 's3'
+depends 's3_file'
 depends 'supervisor'

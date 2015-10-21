@@ -11,13 +11,12 @@ include_recipe 'common::postfix'
 
 include_recipe 'common::repository'
 
-include_recipe 's3'
-
 # install APNs key
 s3_file node[:apns][:key_path] do
-  source node[:apns][:key_s3]
-  access_key_id node[:aws][:key]
-  secret_access_key node[:aws][:secret]
+  remote_path node[:apns][:key_s3]
+  aws_access_key_id node[:aws][:key]
+  aws_secret_access_key node[:aws][:secret]
+  bucket node[:aws][:s3_bucket]
   owner node[:app][:owner]
   group node[:app][:group]
   mode 0644

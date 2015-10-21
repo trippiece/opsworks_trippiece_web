@@ -1,5 +1,5 @@
 # install python and other required packages.
-%w{python27 python27-devel python-pip}.each do |pkg|
+%w{python27 python27-devel}.each do |pkg|
   package pkg do
     action :upgrade
   end

@@ -6,7 +6,7 @@ version           '0.0.1'
 
 depends 'python'
 depends 'postfix'
-depends 's3'
+depends 's3_file'
 depends 'ssh_ignore_host'
 depends 'gunicorn'
 depends 'supervisor'

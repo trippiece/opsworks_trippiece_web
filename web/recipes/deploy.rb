@@ -74,7 +74,7 @@ bash "manage.py" do
   user node[:app][:owner]
   group node[:app][:group]
   code <<-EOC
-  #{node[:virtualenv][:path]}/bin/python manage.py collectstatic --noinput --settings=#{node[:app][:django_settings]}
+  #{node[:virtualenv][:path]}/bin/python manage.py collectstatic --noinput --settings=#{node[:app][:django_settings]} -i rest_framework -i admin --no-post-process
   EOC
 end
 

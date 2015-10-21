@@ -57,9 +57,15 @@ end
 # grunt deploy
 bash "grunt deploy" do
   cwd app_directory
-  code <<-EOC
-  grunt deploy
-  EOC
+  if [:revision] == 'tp2'
+    code <<-EOC
+    grunt deploy --traget=production
+    EOC
+  else
+    code <<-EOC
+    grunt deploy
+    EOC
+  end
 end
 
 # collectstatic

@@ -59,7 +59,7 @@ bash "grunt deploy" do
   cwd app_directory
   if [:revision] == 'tp2'
     code <<-EOC
-    grunt deploy --traget=production
+    grunt deploy --target=production
     EOC
   else
     code <<-EOC

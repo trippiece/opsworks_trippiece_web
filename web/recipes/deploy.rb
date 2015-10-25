@@ -57,9 +57,15 @@ end
 # grunt deploy
 bash "grunt deploy" do
   cwd app_directory
-  code <<-EOC
-  grunt deploy
-  EOC
+  if [:revision] == 'tp2'
+    code <<-EOC
+    grunt deploy --target=production
+    EOC
+  else
+    code <<-EOC
+    grunt deploy
+    EOC
+  end
 end
 
 # collectstatic
@@ -68,7 +74,7 @@ bash "manage.py" do
   user node[:app][:owner]
   group node[:app][:group]
   code <<-EOC
-  #{node[:virtualenv][:path]}/bin/python manage.py collectstatic --noinput --settings=#{node[:app][:django_settings]}
+  #{node[:virtualenv][:path]}/bin/python manage.py collectstatic --noinput --settings=#{node[:app][:django_settings]} -i rest_framework -i admin --no-post-process
   EOC
 end
 

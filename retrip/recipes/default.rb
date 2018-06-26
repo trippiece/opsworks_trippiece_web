@@ -9,7 +9,7 @@ end
 
 # install grunt-cli
 # loosen ssl validation before the installation.
-bash 'npm install -g grunt-cli' do
+bash 'npm config set strict-ssl false && npm install -g grunt-cli' do
   code <<-EOC
   npm config set strict-ssl false
   npm install -g grunt-cli

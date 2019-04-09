@@ -10,8 +10,24 @@ end
 # install bundler
 bash 'gem install bundler' do
   code <<-EOC
-  gem install bundler
+  gem install bundler -v "1.15.1"
   EOC
+end
+
+# install newer nodejs
+# loosen ssl validation before the installation.
+bash 'install n and nodejs manually' do
+  code <<-EOC
+  npm config set strict-ssl false
+  npm install -g n
+  n 5.12.0
+  EOC
+end
+# remove packages no longer needed.
+%w{npm nodejs}.each do |pkg|
+  package pkg do
+    action :remove
+  end
 end
 
 # install grunt-cli

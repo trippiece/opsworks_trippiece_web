@@ -5,8 +5,10 @@
   end
 end
 
-python_pip 'setuptools' do
-  action :upgrade
+bash "pip install --upgrade pip" do
+  code <<-EOC
+  pip install --upgrade pip
+  EOC
 end
 
 include_recipe 'python::virtualenv'

@@ -5,12 +5,6 @@
   end
 end
 
-bash "pip install --upgrade pip" do
-  code <<-EOC
-  pip install --upgrade pip
-  EOC
-end
-
 include_recipe 'python::virtualenv'
 
 directory node[:virtualenv][:parent] do

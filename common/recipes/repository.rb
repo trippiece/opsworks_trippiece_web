@@ -31,11 +31,11 @@ git app_directory do
 end
 
 # pip install
-bash "pip install -r requirements.txt" do include_recipe 'python::virtualenv'
-  cwd app_directory   cwd app_directory
-  user node[:app][:owner]   user node[:app][:owner]
-  group node[:app][:group]    group node[:app][:group]
-  code <<-EOC   code <<-EOC
-  export HOME=~#{node[:app][:owner]}    export HOME=~#{node[:app][:owner]}
+bash "pip install -r requirements.txt" do
+  cwd app_directory
+  user node[:app][:owner]
+  group node[:app][:group]
+  code <<-EOC
+  export HOME=~#{node[:app][:owner]}
   EOC
 end

@@ -6,7 +6,7 @@ cookbook 'yum-epel', '= 0.7.1'
 cookbook 'apt', '= 3.0.0'
 # build-essential 2.3.0 contains bug.
 cookbook 'build-essential', '= 2.2.4'
-cookbook 'poise-python', github: 'poise/poise-python'
+cookbook 'poise-python'
 # 2014-07-31
 cookbook 'supervisor', github: 'poise/supervisor'
 cookbook 'gunicorn', '= 1.2.1'

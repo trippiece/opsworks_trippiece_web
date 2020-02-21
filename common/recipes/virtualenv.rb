@@ -18,6 +18,6 @@ python_virtualenv node[:virtualenv][:path] do
   owner node[:app][:owner]
   group node[:app][:group]
   interpreter "python27"
-  pip_version node[:python][:pip_version]
+  options "--pip #{node[:python][:pip_version]}"
   action :create
 end

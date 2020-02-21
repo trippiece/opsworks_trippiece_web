@@ -37,5 +37,6 @@ bash "pip install -r requirements.txt" do
   group node[:app][:group]
   code <<-EOC
   export HOME=~#{node[:app][:owner]}
+  #{node[:virtualenv][:path]}/bin/pip install -r requirements.txt
   EOC
 end

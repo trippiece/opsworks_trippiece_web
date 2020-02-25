@@ -7,7 +7,7 @@ end
 
 bash 'pip install virtualenv' do
   code <<-EOC
-  pip install virtualenv
+  pip install --user virtualenv
   EOC
 end
 

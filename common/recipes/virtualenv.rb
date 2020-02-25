@@ -5,6 +5,12 @@
   end
 end
 
+bash 'pip install virtualenv' do
+  code <<-EOC
+  pip install virtualenv
+  EOC
+end
+
 include_recipe 'python::virtualenv'
 
 directory node[:virtualenv][:parent] do
@@ -18,6 +24,5 @@ python_virtualenv node[:virtualenv][:path] do
   owner node[:app][:owner]
   group node[:app][:group]
   interpreter "python27"
-  options "--pip #{node[:python][:pip_version]}"
   action :create
 end

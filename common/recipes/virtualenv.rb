@@ -1,14 +1,13 @@
+include_recipe 'apt::default'
+
+override['apt']['compile_time_update'] = true
+
+
 # install python and other required packages.
 %w{python35 python35-devel}.each do |pkg|
   package pkg do
     action :upgrade
   end
-end
-
-bash 'pip install virtualenv' do
-  code <<-EOC
-  pip install --user virtualenv
-  EOC
 end
 
 include_recipe 'python::virtualenv'

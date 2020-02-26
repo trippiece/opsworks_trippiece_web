@@ -1,7 +1,5 @@
-bash 'yum install python35 python35-devel' do
-  code <<-EOC
-  yum update & install python35 python35-devel
-  EOC
+python_runtime 'python3' do
+  version '3.5'
 end
 
 # install python and other required packages.

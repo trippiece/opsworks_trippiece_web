@@ -30,7 +30,7 @@ git app_directory do
   ssh_wrapper node[:sshignorehost][:path]
 end
 
-bash "pip install -U pip" do
+bash "python -m pip install -U pip" do
   code <<-EOC
   pip install -U pip
   EOC

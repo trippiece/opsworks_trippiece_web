@@ -30,19 +30,19 @@ git app_directory do
   ssh_wrapper node[:sshignorehost][:path]
 end
 
-bash "pip2 install -U pip" do
+bash "python pip install -U pip" do
   code <<-EOC
-  pip2 install -U pip
+  python pip install -U pip
   EOC
 end
 
 # pip install
-bash "pip2 install -r requirements.txt" do
+bash "python pip install -r requirements.txt" do
   cwd app_directory
   user node[:app][:owner]
   group node[:app][:group]
   code <<-EOC
   export HOME=~#{node[:app][:owner]}
-  #{node[:virtualenv][:path]}/bin/pip2 install -r requirements.txt
+  python pip install -r requirements.txt
   EOC
 end

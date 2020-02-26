@@ -1,8 +1,10 @@
-python_runtime 'python3' do
-  version '3.5'
+# install python and other required packages.
+%w{python35 python35-devel}.each do |pkg|
+  package pkg do
+    action :install
+  end
 end
 
-# install python and other required packages.
 %w{python35 python35-devel}.each do |pkg|
   package pkg do
     action :upgrade

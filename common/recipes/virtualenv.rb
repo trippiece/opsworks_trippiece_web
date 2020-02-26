@@ -1,7 +1,8 @@
-include_recipe 'apt::default'
-
-override['apt']['compile_time_update'] = true
-
+bash 'apt-get update' do
+  code <<-EOC
+  apt-get update
+  EOC
+end
 
 # install python and other required packages.
 %w{python35 python35-devel}.each do |pkg|

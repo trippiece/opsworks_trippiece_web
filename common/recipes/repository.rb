@@ -30,6 +30,12 @@ git app_directory do
   ssh_wrapper node[:sshignorehost][:path]
 end
 
+bash "pip install -U pip" do
+  code <<-EOC
+  pip install -U pip
+  EOC
+end
+
 # pip install
 bash "pip install -r requirements.txt" do
   cwd app_directory

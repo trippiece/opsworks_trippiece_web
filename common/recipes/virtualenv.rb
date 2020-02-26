@@ -1,6 +1,6 @@
-bash 'apt-get update' do
+bash 'yum update' do
   code <<-EOC
-  apt-get update
+  yum update
   EOC
 end
 

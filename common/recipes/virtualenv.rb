@@ -1,5 +1,5 @@
 # install python and other required packages.
-%w{python27 python27-devel}.each do |pkg|
+%w{python35 python35-devel}.each do |pkg|
   package pkg do
     action :upgrade
   end
@@ -23,6 +23,6 @@ end
 python_virtualenv node[:virtualenv][:path] do
   owner node[:app][:owner]
   group node[:app][:group]
-  interpreter "python27"
+  interpreter "python35"
   action :create
 end

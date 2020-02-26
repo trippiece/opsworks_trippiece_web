@@ -1,6 +1,6 @@
-bash 'yum update' do
+bash 'yum install python35 python35-devel -y' do
   code <<-EOC
-  yum update
+  yum update & install python35 python35-devel -y
   EOC
 end
 

@@ -1,13 +1,6 @@
 # install python and other required packages.
 %w{python35 python35-devel}.each do |pkg|
   package pkg do
-    version '3.5'
-    action :install
-  end
-end
-
-%w{python35 python35-devel}.each do |pkg|
-  package pkg do
     action :upgrade
   end
 end

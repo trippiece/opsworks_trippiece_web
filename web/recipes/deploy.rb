@@ -11,13 +11,13 @@ git app_directory do
 end
 
 # pip install
-bash "pip install -r requirements.txt" do
+bash "python -m pip install -r requirements.txt" do
   cwd app_directory
   user node[:app][:owner]
   group node[:app][:group]
   code <<-EOC
   export HOME=~#{node[:app][:owner]}
-  #{node[:virtualenv][:path]}/bin/pip install -r requirements.txt
+  python -m pip install -r requirements.txt
   EOC
 end
 

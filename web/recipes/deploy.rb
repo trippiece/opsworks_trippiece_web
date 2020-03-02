@@ -46,12 +46,6 @@ bash 'bundle install' do
   EOC
 end
 
-bash 'npm install -g node-sass@latest' do
-  code <<-EOC
-  npm install -g node-sass@latest
-  EOC
-end
-
 # install compilers of less and coffeescript.
 bash 'npm install --production' do
   cwd app_directory

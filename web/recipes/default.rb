@@ -15,19 +15,12 @@ bash 'gem install bundler' do
 end
 
 # install newer nodejs
-# loosen ssl validation before the installation.
-bash 'install n and nodejs manually' do
+bash 'wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash' do
   code <<-EOC
-  npm config set strict-ssl false
-  npm install -g n
-  n 10.16.3
+  wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+  nvm install 10.16.3
+  source ~/.bashrc
   EOC
-end
-# remove packages no longer needed.
-%w{npm nodejs}.each do |pkg|
-  package pkg do
-    action :remove
-  end
 end
 
 # install grunt-cli

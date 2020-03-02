@@ -46,14 +46,6 @@ bash 'bundle install' do
   EOC
 end
 
-# install compilers of less and coffeescript.
-bash 'npm install --production' do
-  cwd app_directory
-  code <<-EOC
-  npm install --production
-  EOC
-end
-
 # install react dependencies
 bash "npm install" do
   cwd "#{app_directory}/#{node[:app][:name]}/assets/js/"

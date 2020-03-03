@@ -56,6 +56,8 @@ end
 # install react dependencies
 bash "npm install" do
   cwd "#{app_directory}/#{node[:app][:name]}/assets/js/"
+  owner node[:app][:owner]
+  group node[:app][:group]
   code <<-EOC
   npm install
   EOC
@@ -64,6 +66,8 @@ end
 # build react
 bash "npm build" do
   cwd "#{app_directory}/#{node[:app][:name]}/assets/js/"
+  owner node[:app][:owner]
+  group node[:app][:group]
   code <<-EOC
   npm build
   EOC

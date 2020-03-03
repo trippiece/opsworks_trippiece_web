@@ -46,6 +46,13 @@ bash 'bundle install' do
   EOC
 end
 
+directory "#{app_directory}/#{node[:app][:name]}/assets/js/node_modules/" do
+  owner node[:app][:owner]
+  group node[:app][:group]
+  mode 0755
+  action :create
+end
+
 # install react dependencies
 bash "npm install" do
   cwd "#{app_directory}/#{node[:app][:name]}/assets/js/"

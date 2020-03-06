@@ -5,7 +5,12 @@
   end
 end
 
-include_recipe 'python::virtualenv'
+include_recipe "python::pip"
+
+python_pip "virtualenv" do
+  version "16.7.7"
+  action :install
+end
 
 directory node[:virtualenv][:parent] do
   owner node[:app][:owner]

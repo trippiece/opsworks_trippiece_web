@@ -11,13 +11,13 @@ git app_directory do
 end
 
 # pip install
-bash "pip install -r requirements_web.txt" do
+bash "pip install -r requirements.txt" do
   cwd app_directory
   user node[:app][:owner]
   group node[:app][:group]
   code <<-EOC
   export HOME=~#{node[:app][:owner]}
-  #{node[:virtualenv][:path]}/bin/pip install -r requirements_web.txt
+  #{node[:virtualenv][:path]}/bin/pip install -r requirements.txt
   EOC
 end
 
@@ -51,6 +51,22 @@ bash 'npm install --production' do
   cwd app_directory
   code <<-EOC
   npm install --production
+  EOC
+end
+
+# install react dependencies
+bash "npm install" do
+  cwd "#{app_directory}/#{node[:app][:name]}/assets/js/"
+  code <<-EOC
+  npm install
+  EOC
+end
+
+# build react
+bash "npm build" do
+  cwd "#{app_directory}/#{node[:app][:name]}/assets/js/"
+  code <<-EOC
+  npm build
   EOC
 end
 

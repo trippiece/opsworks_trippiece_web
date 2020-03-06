@@ -50,6 +50,8 @@ end
 bash 'npm install --production' do
   cwd app_directory
   code <<-EOC
+  npm config set user 0
+  npm config set unsafe-perm true
   npm install --production
   EOC
 end

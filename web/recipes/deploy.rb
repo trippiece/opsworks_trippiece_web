@@ -56,6 +56,20 @@ bash 'npm install --production' do
   EOC
 end
 
+# grunt deploy
+bash "grunt deploy" do
+  cwd app_directory
+  if [:revision] == 'tp2'
+    code <<-EOC
+    grunt deploy --target=production
+    EOC
+  else
+    code <<-EOC
+    grunt deploy
+    EOC
+  end
+end
+
 # install react dependencies
 bash "npm install" do
   cwd "#{app_directory}/#{node[:app][:name]}/assets/js/"
@@ -70,20 +84,6 @@ bash "npm build" do
   code <<-EOC
   npm build
   EOC
-end
-
-# grunt deploy
-bash "grunt deploy" do
-  cwd app_directory
-  if [:revision] == 'tp2'
-    code <<-EOC
-    grunt deploy --target=production
-    EOC
-  else
-    code <<-EOC
-    grunt deploy
-    EOC
-  end
 end
 
 # collectstatic

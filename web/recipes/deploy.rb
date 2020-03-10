@@ -79,10 +79,10 @@ bash "npm install" do
 end
 
 # build react
-bash "npm build" do
+bash "npm run build" do
   cwd "#{app_directory}/#{node[:app][:name]}/assets/js/"
   code <<-EOC
-  npm build
+  npm run build
   EOC
 end
 

@@ -57,9 +57,9 @@ bash 'npm install --production' do
 end
 
 # Set memory limit to avoid grunt running out of memory in newer versions of node
-bash 'set NODE_OPTIONS=--max_old_space_size=2048' do
+bash 'export NODE_OPTIONS=--max_old_space_size=2048' do
   code <<-EOC
-  set NODE_OPTIONS=--max_old_space_size=8172
+  export NODE_OPTIONS=--max_old_space_size=2048
   EOC
 end
 

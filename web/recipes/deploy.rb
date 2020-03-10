@@ -56,13 +56,6 @@ bash 'npm install --production' do
   EOC
 end
 
-# Set memory limit to avoid grunt running out of memory in newer versions of node
-bash 'export NODE_OPTIONS=--max-old-space-size=2048' do
-  code <<-EOC
-  export NODE_OPTIONS=--max-old-space-size=2048
-  EOC
-end
-
 # grunt deploy
 bash "grunt deploy" do
   cwd app_directory
@@ -72,7 +65,7 @@ bash "grunt deploy" do
     EOC
   else
     code <<-EOC
-    grunt deploy
+    /usr/local/bin/node --max-old-space-size=4096 /usr//local/bin/grunt deploy
     EOC
   end
 end

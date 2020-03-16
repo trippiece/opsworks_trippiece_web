@@ -23,12 +23,6 @@ bash 'install n and nodejs manually' do
   n 13.10.1
   EOC
 end
-# remove packages no longer needed.
-%w{npm nodejs}.each do |pkg|
-  package pkg do
-    action :remove
-  end
-end
 
 # install grunt-cli
 bash 'npm install -g grunt-cli' do

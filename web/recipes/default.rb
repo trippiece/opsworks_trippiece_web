@@ -20,7 +20,7 @@ bash 'install n and nodejs manually' do
   code <<-EOC
   npm config set strict-ssl false
   npm install -g n
-  n 13.10.1
+  n stable
   EOC
 end
 

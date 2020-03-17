@@ -50,7 +50,7 @@ end
 bash "npm install" do
   cwd "#{app_directory}/#{node[:app][:name]}/assets/js/"
   code <<-EOC
-  npm install
+  npm install --unsafe-perm
   EOC
 end
 

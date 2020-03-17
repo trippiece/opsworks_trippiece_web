@@ -24,13 +24,6 @@ bash 'install n and nodejs manually' do
   EOC
 end
 
-# install grunt-cli
-bash 'npm install -g grunt-cli' do
-  code <<-EOC
-  npm install -g grunt-cli
-  EOC
-end
-
 include_recipe 'common::postfix'
 
 include_recipe 'common::repository'

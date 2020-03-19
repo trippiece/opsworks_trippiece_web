@@ -62,9 +62,9 @@ bash "npm run deploy" do
   EOC
 end
 
-bash "chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/" do
+bash "mkdir #{app_directory}/#{node[:app][:name]}/static/" do
   code <<-EOC
-  "chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/"
+  "mkdir #{app_directory}/#{node[:app][:name]}/static/"
   EOC
 end
 
@@ -78,7 +78,7 @@ bash "manage.py" do
   EOC
 end
 
-bash "chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/" do
+bash "chown -rH root #{app_directory}/#{node[:app][:name]}/static/" do
   code <<-EOC
   "chown -rH root #{app_directory}/#{node[:app][:name]}/static/"
   EOC

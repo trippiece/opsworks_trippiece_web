@@ -62,11 +62,10 @@ bash "npm run deploy" do
   EOC
 end
 
-cookbook_file "#{app_directory}/#{node[:app][:name]}/static/" do
-  owner 'ec2-user'
-  group 'ec2-user'
-  mode '0755'
-  action :nothing
+bash "chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/" do
+  code <<-EOC
+  "chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/"
+  EOC
 end
 
 # collectstatic
@@ -79,12 +78,12 @@ bash "manage.py" do
   EOC
 end
 
-cookbook_file "#{app_directory}/#{node[:app][:name]}/static/" do
-  owner 'root'
-  group 'root'
-  mode '0755'
-  action :nothing
+bash "chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/" do
+  code <<-EOC
+  "chown -rH root #{app_directory}/#{node[:app][:name]}/static/"
+  EOC
 end
+
 
 # restart supervisor services.
 %W{gunicorn-#{node[:app][:name]} celeryd-#{node[:app][:name]}}.each do |srv|

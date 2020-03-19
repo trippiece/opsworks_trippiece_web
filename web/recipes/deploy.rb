@@ -62,8 +62,11 @@ bash "npm run deploy" do
   EOC
 end
 
-file "#{app_directory}/#{node[:app][:name]}/static/" do
-  mode '777'
+cookbook_file "#{app_directory}/#{node[:app][:name]}/static/" do
+  owner 'ec2-user'
+  group 'ec2-user'
+  mode '0755'
+  action :nothing
 end
 
 # collectstatic
@@ -76,8 +79,11 @@ bash "manage.py" do
   EOC
 end
 
-file "#{app_directory}/#{node[:app][:name]}/static/" do
-  mode '755'
+cookbook_file "#{app_directory}/#{node[:app][:name]}/static/" do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :nothing
 end
 
 # restart supervisor services.

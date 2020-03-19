@@ -62,6 +62,10 @@ bash "npm run deploy" do
   EOC
 end
 
+file "#{app_directory}/#{node[:app][:name]}/static/" do
+  mode '777'
+end
+
 # collectstatic
 bash "manage.py" do
   cwd "#{app_directory}/#{node[:app][:name]}"
@@ -70,6 +74,10 @@ bash "manage.py" do
   code <<-EOC
   #{node[:virtualenv][:path]}/bin/python manage.py collectstatic --noinput --settings=#{node[:app][:django_settings]} -i rest_framework -i admin -i js -i opensearch.xml --no-post-process
   EOC
+end
+
+file "#{app_directory}/#{node[:app][:name]}/static/" do
+  mode '755'
 end
 
 # restart supervisor services.

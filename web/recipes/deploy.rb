@@ -63,6 +63,9 @@ bash "npm run deploy" do
 end
 
 bash "sudo chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/" do
+  cwd "#{app_directory}/#{node[:app][:name]}"
+  user node[:app][:owner]
+  group node[:app][:group]
   code <<-EOC
   "sudo chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/"
   EOC

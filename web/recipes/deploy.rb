@@ -62,9 +62,9 @@ bash "npm run deploy" do
   EOC
 end
 
-bash "mkdir #{app_directory}/#{node[:app][:name]}/static/" do
+bash "chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/" do
   code <<-EOC
-  "mkdir #{app_directory}/#{node[:app][:name]}/static/"
+  "chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/"
   EOC
 end
 

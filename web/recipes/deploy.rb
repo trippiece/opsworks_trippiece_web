@@ -49,6 +49,8 @@ end
 # install react dependencies
 bash "npm install" do
   cwd "#{app_directory}/#{node[:app][:name]}/assets/js/"
+  user node[:app][:owner]
+  group node[:app][:group]
   code <<-EOC
   npm install --unsafe-perm
   EOC
@@ -57,17 +59,10 @@ end
 # build react
 bash "npm run deploy" do
   cwd "#{app_directory}/#{node[:app][:name]}/assets/js/"
-  code <<-EOC
-  npm run deploy
-  EOC
-end
-
-bash "sudo chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/" do
-  cwd "#{app_directory}/#{node[:app][:name]}"
   user node[:app][:owner]
   group node[:app][:group]
   code <<-EOC
-  "sudo chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/"
+  npm run deploy
   EOC
 end
 

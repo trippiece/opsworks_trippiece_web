@@ -62,6 +62,13 @@ bash "npm run deploy" do
   EOC
 end
 
+bash "chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/" do
+  code <<-EOC
+  "chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/"
+  "chgrp -R ec2-user #{app_directory}/#{node[:app][:name]}/static/"
+  EOC
+end
+
 # collectstatic
 bash "manage.py" do
   cwd "#{app_directory}/#{node[:app][:name]}"

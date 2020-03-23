@@ -54,11 +54,16 @@ bash "npm install" do
   EOC
 end
 
+directory "#{app_directory}/#{node[:app][:name]}/static/" do
+  owner node[:app][:owner]
+  group node[:app][:group]
+  mode 0755
+  action :create
+end
+
 # build react
 bash "npm run deploy" do
   cwd "#{app_directory}/#{node[:app][:name]}/assets/js/"
-  user node[:app][:owner]
-  group node[:app][:group]
   code <<-EOC
   npm run deploy
   EOC

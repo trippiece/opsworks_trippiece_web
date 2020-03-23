@@ -62,12 +62,6 @@ bash "npm run deploy" do
   EOC
 end
 
-bash "chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/" do
-  code <<-EOC
-  "chown -rH ec2-user #{app_directory}/#{node[:app][:name]}/static/"
-  EOC
-end
-
 # collectstatic
 bash "manage.py" do
   cwd "#{app_directory}/#{node[:app][:name]}"
@@ -77,13 +71,6 @@ bash "manage.py" do
   #{node[:virtualenv][:path]}/bin/python manage.py collectstatic --noinput --settings=#{node[:app][:django_settings]} -i rest_framework -i admin -i js -i opensearch.xml --no-post-process
   EOC
 end
-
-bash "chown -rH root #{app_directory}/#{node[:app][:name]}/static/" do
-  code <<-EOC
-  "chown -rH root #{app_directory}/#{node[:app][:name]}/static/"
-  EOC
-end
-
 
 # restart supervisor services.
 %W{gunicorn-#{node[:app][:name]} celeryd-#{node[:app][:name]}}.each do |srv|

@@ -49,8 +49,6 @@ end
 # install react dependencies
 bash "npm install" do
   cwd "#{app_directory}/#{node[:app][:name]}/assets/js/"
-  user node[:app][:owner]
-  group node[:app][:group]
   code <<-EOC
   npm install --unsafe-perm
   EOC
